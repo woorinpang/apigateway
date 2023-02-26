@@ -1,0 +1,19 @@
+server:
+  port: 8000
+  
+spring:
+  application:
+    name: apigateway
+  config:
+    import: optional:configserver:http://localhost:8888/
+    name: application
+
+# cloud server actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, info
+
+messages:
+  directory: ${user.dir}/workspace/github/woorinpang/messages
