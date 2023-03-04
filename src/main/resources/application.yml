@@ -3,9 +3,9 @@ server:
   
 spring:
   application:
-    name: apigateway
+    name: user-service
   config:
-    import: optional:configserver:http://localhost:8888/
+    import: optional:configserver:http://localhost:8888
     name: application
   cloud:
     gateway:
