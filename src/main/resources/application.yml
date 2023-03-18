@@ -9,19 +9,33 @@ spring:
     name: application
   cloud:
     gateway:
+#      default-filters:
+#        - name: GlobalFilter
+#          args:
+#            baseMessage: Spring Cloud APIGateway Global Filter
+#            preLogger: true
+#            postLogger: true
       routes:
+        #user-service
         - id: user-service
-          uri: lb://USER-SERVICE
+          uri: lb://USER-SERVICE/api/v1
           predicates:
-            - Path=/user-service/**
+            - Path=/user-service/api/v1/**
           filters:
 #            - RemoveRequestHeader-Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-      default-filters:
-        - name: GlobalFilter
-          args:
-            preLogger: true
-            postLogger: true
+            - RewritePath=/user-service/(?<segment>.*),/$\{segment}
+        - id: store-service
+          uri: lb://STORE-SERVICE
+          predicates:
+            - Path=/store-service/**
+          filters:
+            - RewritePath=/store-service/(?<segment>.*), /$\{segment}
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/**
+          filters:
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}
       discovery:
         locator:
           enabled: true
@@ -32,6 +46,9 @@ management:
     web:
       exposure:
         include: refresh, health, beans, info
+  endpoint:
+    gateway:
+      enabled: false #/actuator/gateway/routes 경로로 routes 보기
 
 messages:
   directory: ${user.dir}/workspace/github/woorinpang/attach/messages
