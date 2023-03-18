@@ -26,10 +26,10 @@ import java.util.List;
 @Component
 public class ReactiveAuthorization implements ReactiveAuthorizationManager<AuthorizationContext> {
 
-    @Value("${spigateway.host:http://localhost:8000}")
+    @Value("${apigateway.host:http://localhost:8000}")
     private String APIGATEWAY_HOST;
 
-    @Value("${token.secret}")
+    @Value("${token.secret-key}")
     private String TOKEN_SECRET;
 
     public static final String AUTHORIZATION_URI = "/user-service" + "/api/v1/authorizations/check";

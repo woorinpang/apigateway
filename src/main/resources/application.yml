@@ -1,6 +1,6 @@
 server:
   port: 8000
-  
+
 spring:
   application:
     name: apigateway
@@ -9,21 +9,15 @@ spring:
     name: application
   cloud:
     gateway:
-#      default-filters:
-#        - name: GlobalFilter
-#          args:
-#            baseMessage: Spring Cloud APIGateway Global Filter
-#            preLogger: true
-#            postLogger: true
       routes:
         #user-service
         - id: user-service
-          uri: lb://USER-SERVICE/api/v1
+          uri: lb://USER-SERVICE
           predicates:
-            - Path=/user-service/api/v1/**
+            - Path=/user-service/**
           filters:
-#            - RemoveRequestHeader-Cookie
-            - RewritePath=/user-service/(?<segment>.*),/$\{segment}
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: store-service
           uri: lb://STORE-SERVICE
           predicates:
@@ -36,6 +30,12 @@ spring:
             - Path=/order-service/**
           filters:
             - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud APIGateway Global Filter
+            preLogger: true
+            postLogger: true
       discovery:
         locator:
           enabled: true
@@ -50,5 +50,5 @@ management:
     gateway:
       enabled: false #/actuator/gateway/routes 경로로 routes 보기
 
-messages:
-  directory: ${user.dir}/workspace/github/woorinpang/attach/messages
+apigateway:
+  host: http://${apigateway.hostname:localhost}

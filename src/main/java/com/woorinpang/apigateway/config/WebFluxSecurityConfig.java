@@ -18,13 +18,15 @@ import org.springframework.security.web.server.authorization.AuthorizationContex
 public class WebFluxSecurityConfig {
 
     private final static String[] PERMITALL_ANTPATTERNS = {
-            ReactiveAuthorization.AUTHORIZATION_URI, "/", "/csrf",
+            ReactiveAuthorization.AUTHORIZATION_URI, "/**", "/csrf",
             "/user-service/login", "/?*-service/api/v1/messages/**", "/api/v1/messages/**",
             "/?*-service/actuator/?**", "/actuator/?*",
             "**/configuration/*"
     };
 
-    private final static String USER_JOIN_ANTPATTERNS = "/user-service/api/v1/users";
+    private final static String[] USER_JOIN_ANTPATTERNS = {
+            "/** ","/user-service/api/v1/users"
+    };
 
     @Bean
     public SecurityWebFilterChain chain(ServerHttpSecurity http, ReactiveAuthorizationManager<AuthorizationContext> check) throws Exception {
