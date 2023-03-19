@@ -30,6 +30,12 @@ spring:
             - Path=/order-service/**
           filters:
             - RewritePath=/order-service/(?<segment>.*), /$\{segment}
+        - id: company-service
+          uri: lb://COMPANY-SERVICE
+          predicates:
+            - Path=/company-service/**
+          filters:
+            - RewritePath=/company-service/(?<segment>.*), /$\{segment}
       default-filters:
         - name: GlobalFilter
           args:

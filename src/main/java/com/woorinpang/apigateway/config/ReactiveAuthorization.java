@@ -32,7 +32,7 @@ public class ReactiveAuthorization implements ReactiveAuthorizationManager<Autho
     @Value("${token.secret-key}")
     private String TOKEN_SECRET;
 
-    public static final String AUTHORIZATION_URI = "/user-service" + "/api/v1/authorizations/check";
+    public static final String AUTHORIZATION_URI = "/user-service" + "/api/v1/auth/check";
     public static final String REFRESH_TOKEN_URI = "/user-service" + "/api/v1/users/token/refresh";
 
     /**
@@ -57,7 +57,7 @@ public class ReactiveAuthorization implements ReactiveAuthorizationManager<Autho
 
             try {
                 authorizationHeader = authorizations.get(0);
-                String jwt = authorizationHeader.replace("Bearer", "");
+                String jwt = authorizationHeader.replace("Bearer ", "");
                 String subject = Jwts.parser().setSigningKey(TOKEN_SECRET)
                         .parseClaimsJws(jwt)
                         .getBody()
@@ -93,13 +93,12 @@ public class ReactiveAuthorization implements ReactiveAuthorizationManager<Autho
                         httpHeaders.add(HttpHeaders.AUTHORIZATION, token);
                     })
                     .retrieve().bodyToMono(Boolean.class);
-            granted = body.blockOptional().orElse(false);
+            granted = body.toFuture().get().booleanValue();
             log.info("Security AuthorizationDecision granted = {}", granted);
         } catch (Exception e) {
             log.error("인가 서버에 요청 중 오류 = {}", e.getMessage());
             throw new AuthorizationServiceException("인가 요청시 오류 발생");
         }
-
         return Mono.just(new AuthorizationDecision(granted));
     }
 }

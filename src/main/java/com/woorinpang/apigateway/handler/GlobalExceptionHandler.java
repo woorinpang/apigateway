@@ -21,9 +21,12 @@ import java.util.Map;
 
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
-    @Autowired
-    private ObjectMapper objectMapper;
-    
+    private final ObjectMapper objectMapper;
+
+    public GlobalExceptionHandler(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         List<Class<? extends Exception>> jwtExceptions = List.of(
