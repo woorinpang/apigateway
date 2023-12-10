@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.0.3'
-    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.springframework.boot' version '3.1.6'
+    id 'io.spring.dependency-management' version '1.1.3'
 }
 
 group = 'com.woorinpang'
@@ -20,7 +20,7 @@ repositories {
 }
 
 ext {
-    set('springCloudVersion', "2022.0.1")
+    set('springCloudVersion', "2022.0.4")
 }
 
 dependencies {

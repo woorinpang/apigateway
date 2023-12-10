@@ -22,7 +22,6 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
 public class ReactiveAuthorization implements ReactiveAuthorizationManager<AuthorizationContext> {
 
