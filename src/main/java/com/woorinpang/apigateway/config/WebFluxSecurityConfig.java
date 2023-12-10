@@ -23,13 +23,16 @@ import static org.springframework.security.config.Customizer.*;
 public class WebFluxSecurityConfig {
 
     private final static String[] PERMITALL_ANTPATTERNS = {
-            ReactiveAuthorization.AUTHORIZATION_URI, "/", "/csrf", "/user-service/api/v1/users/join",
-            "/user-service/login", "/?*-service/api/v1/messages/**", "/api/v1/messages/**",
-            "/?*-service/actuator/?*", "/actuator/?*",
-            "/v3/api-docs/**", "/?*-service/v3/api-docs", "*/configuration/*", "/swagger*/**", "/webjars/**"
+            ReactiveAuthorization.AUTHORIZATION_URI,
+            "/",
+            "/csrf",
+            "/user-service/login",
+            "/?*-service/actuator/?*",
+            "/actuator/?*",
+            "/?*-service/docs/index.html"
     };
 
-    private final static String USER_JOIN_ANTPATTERNS = "/user-service/api/v1/auth";
+    private final static String USER_JOIN_ANTPATTERNS = "/user-service/users/join";
 
     @Bean
     public SecurityWebFilterChain chain(ServerHttpSecurity http, ReactiveAuthorizationManager<AuthorizationContext> check) throws Exception {
@@ -48,6 +51,7 @@ public class WebFluxSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers(PERMITALL_ANTPATTERNS).permitAll()
+                        .pathMatchers(HttpMethod.POST, USER_JOIN_ANTPATTERNS).permitAll()
                         .pathMatchers(HttpMethod.POST, USER_JOIN_ANTPATTERNS).permitAll()
                         .anyExchange().access(check)
                 )

@@ -31,8 +31,8 @@ public class ReactiveAuthorization implements ReactiveAuthorizationManager<Autho
     @Value("${token.secret-key}")
     private String TOKEN_SECRET;
 
-    public static final String AUTHORIZATION_URI = "/user-service" + "/api/v1/auth/check";
-    public static final String REFRESH_TOKEN_URI = "/user-service" + "/api/v1/users/token/refresh";
+    public static final String AUTHORIZATION_URI = "/user-service" + "/auth/check";
+    public static final String REFRESH_TOKEN_URI = "/user-service" + "/auth/token/refresh";
 
     /**
      * 요청에 대한 사용자의 권한여부 체크하여 true/false 로 리턴한다. 헤더에 토큰이 있으면 유효성 체크한다.
@@ -88,10 +88,9 @@ public class ReactiveAuthorization implements ReactiveAuthorizationManager<Autho
             String token = authorizationHeader; //Variable used in lambda expression should be final or effectively final
             Mono<Boolean> body = WebClient.create(baseUrl)
                     .get()
-                    .headers(httpHeaders -> {
-                        httpHeaders.add(HttpHeaders.AUTHORIZATION, token);
-                    })
-                    .retrieve().bodyToMono(Boolean.class);
+                    .headers(httpHeaders -> httpHeaders.add(HttpHeaders.AUTHORIZATION, token))
+                    .retrieve()
+                    .bodyToMono(Boolean.class);
             granted = body.toFuture().get().booleanValue();
             log.info("Security AuthorizationDecision granted = {}", granted);
         } catch (Exception e) {
