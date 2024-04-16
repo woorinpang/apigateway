@@ -32,7 +32,7 @@ public class WebFluxSecurityConfig {
             "/?*-service/docs/index.html"
     };
 
-    private final static String USER_JOIN_ANTPATTERNS = "/user-service/users/join";
+    private final static String USER_JOIN_ANTPATTERNS = "/user-service/auth/join";
 
     @Bean
     public SecurityWebFilterChain chain(ServerHttpSecurity http, ReactiveAuthorizationManager<AuthorizationContext> check) throws Exception {
