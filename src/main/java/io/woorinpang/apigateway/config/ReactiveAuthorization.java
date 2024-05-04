@@ -1,4 +1,4 @@
-package com.woorinpang.apigateway.config;
+package io.woorinpang.apigateway.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

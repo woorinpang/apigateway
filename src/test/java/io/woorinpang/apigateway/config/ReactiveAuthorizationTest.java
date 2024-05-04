@@ -1,4 +1,4 @@
-package com.woorinpang.apigateway.config;
+package io.woorinpang.apigateway.config;
 
 import com.netflix.discovery.converters.Auto;
 import org.apache.http.HttpHeaders;

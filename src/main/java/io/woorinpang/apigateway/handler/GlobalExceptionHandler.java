@@ -1,4 +1,4 @@
-package com.woorinpang.apigateway.handler;
+package io.woorinpang.apigateway.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

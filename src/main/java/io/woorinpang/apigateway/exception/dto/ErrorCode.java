@@ -1,4 +1,4 @@
-package com.woorinpang.apigateway.exception.dto;
+package io.woorinpang.apigateway.exception.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

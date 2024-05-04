@@ -1,6 +1,6 @@
-package com.woorinpang.apigateway.exception;
+package io.woorinpang.apigateway.exception;
 
-import com.woorinpang.apigateway.exception.dto.ErrorCode;
+import io.woorinpang.apigateway.exception.dto.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes;
