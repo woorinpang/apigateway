@@ -31,17 +31,6 @@ public class WebFluxSecurityConfig {
 
     @Bean
     public SecurityWebFilterChain chain(ServerHttpSecurity http, ReactiveAuthorizationManager<AuthorizationContext> check) throws Exception {
-//        http
-//                    .csrf().disable()
-//                    .headers().frameOptions().disable()
-//                .and()
-//                    .formLogin().disable()
-//                    .httpBasic().authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)) //login dialog disabled & 401 HttpStatus return
-//                .and()
-//                    .authorizeExchange()
-//                    .pathMatchers(PERMITALL_ANTPATTERNS).permitAll()
-//                    .pathMatchers(HttpMethod.POST, USER_JOIN_ANTPATTERNS).permitAll()
-//                    .anyExchange().access(check);
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchanges -> exchanges
