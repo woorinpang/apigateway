@@ -1,8 +1,9 @@
 package io.woorinpang.apigateway.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import lombok.RequiredArgsConstructor;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Base64;
 import java.util.List;
 
 @Slf4j
@@ -29,7 +31,7 @@ public class ReactiveAuthorization implements ReactiveAuthorizationManager<Autho
     private String APIGATEWAY_HOST;
 
     @Value("${token.secret-key}")
-    private String TOKEN_SECRET;
+    private String TOKEN_SECRET_KEY;
 
     public static final String AUTHORIZATION_URI = "/user-service" + "/auth/check";
     public static final String REFRESH_TOKEN_URI = "/user-service" + "/auth/token/refresh";
@@ -57,10 +59,13 @@ public class ReactiveAuthorization implements ReactiveAuthorizationManager<Autho
             try {
                 authorizationHeader = authorizations.get(0);
                 String jwt = authorizationHeader.replace("Bearer ", "");
-                String subject = Jwts.parser().setSigningKey(TOKEN_SECRET)
+                Claims claims = Jwts.parserBuilder()
+                        .setSigningKey(Keys.hmacShaKeyFor(Base64.getDecoder().decode(TOKEN_SECRET_KEY)))
+                        .build()
                         .parseClaimsJws(jwt)
-                        .getBody()
-                        .getSubject();
+                        .getBody();
+
+                String subject = claims.getSubject();
 
                 //refresh token 요청 시 토큰 검증만 하고 인가 처리 한다.
                 if (REFRESH_TOKEN_URI.equals(requestPath + "")) {
