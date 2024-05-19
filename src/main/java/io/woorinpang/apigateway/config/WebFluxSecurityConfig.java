@@ -22,6 +22,7 @@ public class WebFluxSecurityConfig {
             "/",
             "/csrf",
             "/user-service/login",
+            "/user-service/auth/username/exists",
             "/?*-service/actuator/?*",
             "/actuator/?*",
             "/?*-service/docs/index.html"
@@ -32,7 +33,7 @@ public class WebFluxSecurityConfig {
     @Bean
     public SecurityWebFilterChain chain(ServerHttpSecurity http, ReactiveAuthorizationManager<AuthorizationContext> check) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers(PERMITALL_ANTPATTERNS).permitAll()
                         .pathMatchers(HttpMethod.POST, USER_JOIN_ANTPATTERNS).permitAll()
