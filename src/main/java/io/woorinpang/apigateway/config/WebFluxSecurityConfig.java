@@ -22,10 +22,13 @@ public class WebFluxSecurityConfig {
             "/",
             "/csrf",
             "/user-service/login",
+            "/login/oauth2/code/google",
+            "/login/oauth2/code/kakao",
             "/user-service/auth/username/exists",
             "/?*-service/actuator/?*",
             "/actuator/?*",
-            "/?*-service/docs/index.html"
+            "/?*-service/docs/index.html",
+            "/favicon.ico"
     };
 
     private final static String USER_JOIN_ANTPATTERNS = "/user-service/auth/join";
