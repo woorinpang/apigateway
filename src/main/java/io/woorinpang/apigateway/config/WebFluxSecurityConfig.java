@@ -24,6 +24,7 @@ public class WebFluxSecurityConfig {
             "/user-service/login",
             "/login/oauth2/code/google",
             "/login/oauth2/code/kakao",
+            "/login/oauth2/code/naver",
             "/user-service/auth/username/exists",
             "/?*-service/actuator/?*",
             "/actuator/?*",

@@ -50,14 +50,14 @@ public class ReactiveAuthorization implements ReactiveAuthorizationManager<Autho
 
         String authorizationHeader = "";
 
-        List<String> authorizations = request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION) ? request.getHeaders().get(HttpHeaders.AUTHORIZATION) : null;
+        List<String> authorizations = request.getHeaders().getOrDefault(HttpHeaders.AUTHORIZATION, null);
 
-        if (authorizations != null && authorizations.size() > 0 &&
-                StringUtils.hasLength(authorizations.get(0)) &&
-                !"undefined".equals(authorizations.get(0))) {
+        if (authorizations != null && !authorizations.isEmpty() &&
+                StringUtils.hasLength(authorizations.getFirst()) &&
+                !"undefined".equals(authorizations.getFirst())) {
 
             try {
-                authorizationHeader = authorizations.get(0);
+                authorizationHeader = authorizations.getFirst();
                 String jwt = authorizationHeader.replace("Bearer ", "");
                 Claims claims = Jwts.parserBuilder()
                         .setSigningKey(Keys.hmacShaKeyFor(Base64.getDecoder().decode(TOKEN_SECRET_KEY)))
@@ -83,7 +83,7 @@ public class ReactiveAuthorization implements ReactiveAuthorizationManager<Autho
                 log.error("토큰 유효기간이 만료되었습니다. = {}", e.getMessage());
                 throw new AuthorizationServiceException("토큰 유효기간 만료");
             } catch (Exception e) {
-                log.error("토큰 인증 오류 Exception = {}");
+                log.error("토큰 인증 오류 Exception = {}", e.getMessage());
                 throw new AuthorizationServiceException("토큰 인증 오류");
             }
         }
