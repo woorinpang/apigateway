@@ -17,6 +17,13 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: asset-service
+          uri: lb://ASSET-SERVICE
+          predicates:
+            - Path=/asset-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/asset-service/(?<segment>.*), /$\{segment}
         - id: post-service
           uri: lb://POST-SERVICE
           predicates:
